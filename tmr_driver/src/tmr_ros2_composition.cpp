@@ -1,5 +1,5 @@
-#include "tmr_driver/tmr_ros2_svr.h"
-#include "tmr_driver/tmr_ros2_sct.h"
+#include "tmr_driver/tmr_ros2_tmsvr.h"
+#include "tmr_driver/tmr_ros2_tmsct.h"
 
 #include "rclcpp/rclcpp.hpp"
 
@@ -14,24 +14,29 @@ int main(int argc, char *argv[])
   std::string host;
   if (argc > 1) {
     host = argv[1];
-    if (host.find("ip:=") != std::string::npos) {
-      host.replace(host.begin(), host.begin() + 4, "");
+    if (host.find("robot_ip_address:=") != std::string::npos) {
+      host.replace(host.begin(), host.begin() + 18, "");
       is_fake = false;
     }
-    if (host.find("robot_ip:=") != std::string::npos) {
+    else if (host.find("robot_ip:=") != std::string::npos) {
       host.replace(host.begin(), host.begin() + 10, "");
+      is_fake = false;
+    }
+    else if (host.find("ip:=") != std::string::npos) {
+      host.replace(host.begin(), host.begin() + 4, "");
       is_fake = false;
     }
   }
   if (is_fake) {
-    std::cout << "No. ip or robot_ip, is_fake:=true\n";
+    std::cout << "No robot_ip, is_fake: true\n";
   }
 
   rclcpp::executors::SingleThreadedExecutor exec;
   rclcpp::NodeOptions options;
 
-  //std::condition_variable sct_cv;
-  tmr::Driver iface(host, nullptr, nullptr);
+  tmrl::driver::TmsvrClient tmsvr(host);
+  tmrl::driver::TmsctClient tmsct(host);
+  tmrl::driver::Driver iface(tmsvr, tmsct);
 
   auto tm_svr = std::make_shared<TmSvrRos2>(options, iface, is_fake);
   exec.add_node(tm_svr);

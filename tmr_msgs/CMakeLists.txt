@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(tmr_msgs)
 
-# Default to C99
-if(NOT CMAKE_C_STANDARD)
-  set(CMAKE_C_STANDARD 99)
-endif()
-
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
@@ -37,12 +32,12 @@ find_package(rosidl_default_generators REQUIRED)
 
 set(msg_files
   "msg/FeedbackState.msg"
-  "msg/SvrResponse.msg"
-  "msg/SctResponse.msg"
-  "msg/StaResponse.msg"
+  "msg/TmsvrResponse.msg"
+  "msg/TmsctResponse.msg"
+  "msg/TmstaResponse.msg"
 )
 set(srv_files
-  "srv/ConnectTM.srv"
+  "srv/ConnectTMR.srv"
   "srv/WriteItem.srv"
   "srv/AskItem.srv"
   "srv/SendScript.srv"

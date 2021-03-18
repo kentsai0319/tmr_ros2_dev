@@ -1,11 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 project(tmr_driver)
 
-# Default to C99
-if(NOT CMAKE_C_STANDARD)
-  set(CMAKE_C_STANDARD 99)
-endif()
-
 # Default to C++14
 if(NOT CMAKE_CXX_STANDARD)
   set(CMAKE_CXX_STANDARD 14)
@@ -48,8 +43,8 @@ include_directories(include
 
 add_executable(tmr_driver
   src/tmr_ros2_composition.cpp
-  src/tmr_ros2_sct.cpp
-  src/tmr_ros2_svr.cpp
+  src/tmr_ros2_tmsct.cpp
+  src/tmr_ros2_tmsvr.cpp
 )
 
 ament_target_dependencies(tmr_driver
